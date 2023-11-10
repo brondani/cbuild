@@ -134,7 +134,18 @@ func (b CSolutionBuilder) getCprjFilePath(idxFile string, context string) (strin
 	return cprjPath, err
 }
 
-func (b CSolutionBuilder) getSelectedContexts(cbuildSetFile string) ([]string, error) {
+func (b CSolutionBuilder) getSelectedContextsIdx(idxFile string) ([]string, error) {
+	var contexts []string
+	data, err := utils.ParseCbuildIndexFile(idxFile)
+	if err == nil {
+		for _, cbuild := range data.BuildIdx.Cbuilds {
+			contexts = append(contexts, cbuild.Project+cbuild.Configuration)
+		}
+	}
+	return contexts, err
+}
+
+func (b CSolutionBuilder) getSelectedContextsSet(cbuildSetFile string) ([]string, error) {
 	var contexts []string
 	data, err := utils.ParseCbuildSetFile(cbuildSetFile)
 	if err == nil {
@@ -371,12 +382,24 @@ func (b CSolutionBuilder) Build() (err error) {
 	if err != nil {
 		return err
 	}
-	setFile := utils.NormalizePath(filepath.Join(filepath.Dir(b.InputFile), projName+".cbuild-set.yml"))
-
+	
 	// get list of selected contexts
-	selectedContexts, err := b.getSelectedContexts(setFile)
-	if err != nil {
-		return err
+	var selectedContexts []string
+	if b.Options.UseContextSet {
+		setFile := utils.NormalizePath(filepath.Join(filepath.Dir(b.InputFile), projName+".cbuild-set.yml"))
+		selectedContexts, err = b.getSelectedContextsSet(setFile)
+		if err != nil {
+			return err
+		}
+	} else {
+		idxFile, err := b.getIdxFilePath()
+		if err != nil {
+			return err
+		}
+		selectedContexts, err = b.getSelectedContextsIdx(idxFile)
+		if err != nil {
+			return err
+		}
 	}
 	totalContexts := strconv.Itoa(len(selectedContexts))
 	log.Info("Processing " + totalContexts + " context(s)")

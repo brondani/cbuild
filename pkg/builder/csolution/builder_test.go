@@ -366,7 +366,7 @@ func TestGetSelectedContexts(t *testing.T) {
 	}
 
 	t.Run("test set file missing", func(t *testing.T) {
-		contexts, err := b.getSelectedContexts("missingfile.cbuild-set.yml")
+		contexts, err := b.getSelectedContextsSet("missingfile.cbuild-set.yml")
 		assert.Error(err)
 		assert.Len(contexts, 0)
 	})
@@ -378,7 +378,7 @@ func TestGetSelectedContexts(t *testing.T) {
 			"test1.Debug+CM0",
 			"test1.Release+CM0",
 		}
-		contexts, err := b.getSelectedContexts(testSetFile)
+		contexts, err := b.getSelectedContextsSet(testSetFile)
 		assert.Nil(err)
 		assert.Equal(contexts, expectedContexts)
 	})
