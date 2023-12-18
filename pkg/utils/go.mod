@@ -1,4 +1,4 @@
-module github.com/brondani/cbuild/pkg/utils
+module github.com/brondani/cbuild/pkg/utils/v2
 
 go 1.21.4
 
