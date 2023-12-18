@@ -1,4 +1,4 @@
-module github.com/brondani/cbuild/v2
+module github.com/brondani/cbuild
 
 go 1.21
 
