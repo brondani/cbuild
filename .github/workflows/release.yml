@@ -11,34 +11,12 @@ on:
       - "v*"
 
 jobs:
-  test:
-    uses: Open-CMSIS-Pack/cbuild/.github/workflows/test.yml@main
-
+      
   goreleaser:
-    needs: test
     permissions:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - name: Download test results
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427 # v4.1.4
-        with:
-          pattern: test-results-*
-          path: testreport/
-
-      - name: Zip test reports
-        run: |
-          zip -r testreport.zip testreport
-
-      - name: Attach test report to release assets
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@04733e069f2d7f7f0b4aebc4fbdbce8613b03ccd # v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: testreport.zip
-          tag: ${{ github.ref }}
-          overwrite: true
-
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
