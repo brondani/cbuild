@@ -130,7 +130,8 @@ func NewRootCmd() *cobra.Command {
 			toolchain, _ := cmd.Flags().GetString("toolchain")
 			useContextSet, _ := cmd.Flags().GetBool("context-set")
 			frozenPacks, _ := cmd.Flags().GetBool("frozen-packs")
-			useCbuild2CMake, _ := cmd.Flags().GetBool("cbuild2cmake")
+			useCbuildgen, _ := cmd.Flags().GetBool("cbuildgen")
+			useCbuild2CMake := !useCbuildgen
 
 			options := builder.Options{
 				IntDir:          intDir,
@@ -211,7 +212,7 @@ func NewRootCmd() *cobra.Command {
 	rootCmd.PersistentFlags().BoolP("schema", "s", false, "Validate project input file(s) against schema")
 	rootCmd.PersistentFlags().StringP("log", "", "", "Save output messages in a log file")
 	rootCmd.PersistentFlags().StringP("toolchain", "", "", "Input toolchain to be used")
-	rootCmd.Flags().BoolP("cbuild2cmake", "", false, "Use build information files with cbuild2cmake interface (experimental)")
+	rootCmd.Flags().BoolP("cbuildgen", "", false, "Use build information files with cbuildgen backend")
 
 	// CPRJ specific hidden flags
 	rootCmd.Flags().StringP("intdir", "i", "", "Set directory for intermediate files")
