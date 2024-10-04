@@ -597,7 +597,7 @@ func (b CSolutionBuilder) build() (err error) {
 		return err
 	}
 
-	b.Options.Rebuild, err = b.needRebuild()
+	b.Options.Rebuild, err = !b.Options.NoDatabase && b.needRebuild()
 	if err != nil {
 		log.Error(err)
 		return err
