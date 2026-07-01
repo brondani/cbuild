@@ -1,6 +1,6 @@
 module github.com/Open-CMSIS-Pack/cbuild/v2
 
-go 1.21
+go 1.25
 
 require (
 	github.com/hashicorp/go-version v1.7.0
