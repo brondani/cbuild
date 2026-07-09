@@ -1,6 +1,6 @@
 module github.com/Open-CMSIS-Pack/cbuild/v2
 
-go 1.26
+go 1.21
 
 require (
 	github.com/aymanbagabas/go-pty v0.2.3
